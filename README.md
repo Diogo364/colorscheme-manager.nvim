@@ -48,7 +48,7 @@ end
 
 require("colorscheme-manager").setup({
     colorscheme = "your-favorite-colorscheme-here",
-	enable_custom_options = true,
+    enable_custom_options = true,
     custom_options_function = ColorMyPencils
 })
 ```
