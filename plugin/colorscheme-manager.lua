@@ -4,4 +4,4 @@ end, {})
 
 vim.api.nvim_create_user_command("ColorManagerChangeColor", function(colorscheme)
     require("colorscheme-manager").switch_colorscheme(colorscheme.args)
-end, { nargs = 1 })
+end, { nargs = 1, complete = "color" })
