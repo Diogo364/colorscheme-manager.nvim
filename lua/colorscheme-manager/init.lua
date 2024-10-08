@@ -1,24 +1,29 @@
-local _config = require("colorscheme-manager.config")
+---@type ColorschemeManager
+local colorscheme_manager = require("colorscheme-manager.manager")
+
 local M = {}
 
-M.colorscheme_manager = {}
-
+---@param opts ColorschemeManager?
 function M.setup(opts)
     opts = opts or {}
-    M.colorscheme_manager = _config.extend_options(opts)
-    M.colorscheme_manager:apply_changes()
+    colorscheme_manager = colorscheme_manager:new(opts)
+    colorscheme_manager:apply_changes()
 end
 
-M.toggle_custom_options = function()
-    M.colorscheme_manager:toggle_custom_options()
+---Function to toggle the enable_custom_options flag
+function M.toggle_custom_options()
+    colorscheme_manager:toggle_custom_options()
 end
 
-M.switch_colorscheme = function(colorscheme)
-    M.colorscheme_manager:switch_colorscheme(colorscheme)
+---@param colorscheme string Setter for changing the colorscheme name and start update the ui settings
+function M.switch_colorscheme(colorscheme)
+    colorscheme_manager:switch_colorscheme(colorscheme)
 end
 
-M.set_custom_options = function(custom_options_function)
-    M.colorscheme_manager:set_custom_options_function(custom_options_function)
+---Setter for the custom_options_function parameter. This function runs each time the colorscheme changes
+---@param custom_options_function function: Function to run each time Colorscheme changes
+function M.set_custom_options(custom_options_function)
+    colorscheme_manager:set_custom_options_function(custom_options_function)
 end
 
 return M
