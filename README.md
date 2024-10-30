@@ -13,7 +13,9 @@ This allows for a custom experience for testing different colorschemes and how y
 - **colorscheme**: This parameter is the string that represents the colorscheme you would like to activate in your environment. You should pass the exact value you would pass to the `colorscheme` command.
 - **custom_options_function**: This function sets all the custom UI changes you prefer.
 - **enable_custom_options [Optional]**: A boolean flag that indicates if the plugin should run the `custom_options_function`. If no value is provided it's automatically set to true if you pass the `custom_options_function` setup function.
-- **autocmd [Optional]**: A boolean flag to indicate if the plugin should sync itself to the `ColorScheme` autocmd > Note: This is encouraged, since it attaches the `custom_options_function` to the Color Scheme event, allowing the user to use both the `colorscheme` and `ColorManagerChangeColor` commands interchangeably. 
+- **autocmd [Optional]**: A boolean flag to indicate if the plugin should sync itself to the `ColorScheme` autocmd
+    > Note: 
+    > This is encouraged, since it attaches the `custom_options_function` to the Color Scheme event, allowing the user to use both the `colorscheme` and `ColorManagerChangeColor` commands interchangeably. 
 
 ## Getting Started
 ### Lazy
