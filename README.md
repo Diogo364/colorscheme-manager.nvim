@@ -41,6 +41,9 @@ local ColorMyPencils = function()
     -- Yes, this is from ThePrimeagen's config
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+    -- I also like yellow selection in my nvim-cmp selection
+    vim.api.nvim_set_hl(0, "PmenuSel", { bg = "Yellow", fg = "Black" })
 end
 
 require("colorscheme-manager").setup({
