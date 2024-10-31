@@ -4,7 +4,7 @@ TEST_ROOT := tests/
 
 .PHONY: pr-ready fmt lint test
 
-pr-ready: fmt lint
+pr-ready: fmt lint test
 
 fmt: $(STYLE_TOML_FILE)
 	@echo "===> Formatting"
