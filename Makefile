@@ -1,7 +1,18 @@
+STYLE_TOML_FILE := .stylua.toml
 STARTUP_VIM_SCRIPT := tests/minimal_init.lua
 TEST_ROOT := tests/
 
-.PHONY: test
+.PHONY: pr-ready fmt lint test
+
+pr-ready: fmt lint test
+
+fmt: $(STYLE_TOML_FILE)
+	@echo "===> Formatting"
+	stylua lua/ --config-path=$(STYLE_TOML_FILE)
+
+lint:
+	@echo "===> Linting"
+	luacheck lua/ --globals vim
 
 test: $(STARTUP_VIM_SCRIPT) $(TEST_ROOT)
 	@nvim \
