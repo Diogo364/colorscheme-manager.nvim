@@ -23,7 +23,7 @@ This allows for a custom experience for testing different colorschemes and how y
 ```lua
 {
     "Diogo364/colorscheme-manager.nvim",
-    tag = "0.2.0"
+    tag = "0.3.0"
 }
 ```
 
