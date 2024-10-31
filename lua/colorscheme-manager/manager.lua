@@ -4,7 +4,8 @@ local ColorschemeManagerGroup = require("colorscheme-manager.autocmd")
 ---This is the motor behind the ColorschemeManager. It does all the implementation logic for apply the changes
 ---@field private colorscheme string Name of the colorscheme to be set
 ---@field private enable_custom_options boolean? Boolean flag if the custom_options_function should run
----@field private custom_options_function function? Function that sets, or tweaks custom changes whenever colorscheme changes
+---@field private custom_options_function function? Function that sets, or tweaks custom changes whenever
+---colorscheme changes
 local ColorschemeManager = {
     colorscheme = "default",
     enable_custom_options = nil,
@@ -48,7 +49,8 @@ function ColorschemeManager:apply_changes()
     end
 end
 
----Passive function that updates the ColorschemeManager with the current colorscheme and apply the custom_options_function if enabled
+---Passive function that updates the ColorschemeManager with the current colorscheme and apply the
+---custom_options_function if enabled
 function ColorschemeManager:sync_changes()
     self.colorscheme = vim.g.colors_name
     self:apply_custom_options_function()
@@ -77,7 +79,9 @@ end
 ---@param custom_options_function function: Function to run each time Colorscheme changes
 function ColorschemeManager:set_custom_options_function(custom_options_function)
     if type(custom_options_function) ~= "function" then
-        error("Not a valid function is set to Colorscheme Manager's custom_options")
+        error(
+            "Not a valid function is set to Colorscheme Manager's custom_options"
+        )
     end
     self.custom_options_function = custom_options_function
     self.enable_custom_options = true
