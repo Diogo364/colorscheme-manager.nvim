@@ -2,6 +2,7 @@ COUNT = 0
 
 local target_colorscheme = "blue"
 local default_colorscheme = "default"
+local tmp_dir = "/tmp/colorscheme-manager_macro_spec"
 
 local set_defaults = function()
     vim.cmd("colorscheme " .. default_colorscheme)
@@ -18,7 +19,10 @@ colorscheme_manager.setup({
     enable_custom_options = false,
     custom_options_function = CustomFunction,
     autocmd = true,
+    cache_dir = tmp_dir,
 })
+
+colorscheme_manager.clear()
 
 describe("ColorschemeManager setup", function()
     before_each(set_defaults)
@@ -43,15 +47,20 @@ describe("Autocmd", function()
     before_each(set_defaults)
 
     it("can create an autocmd for ColorScheme events", function()
-        local colorscheme_manager_autocmds =
-            vim.api.nvim_get_autocmds({ group = "ColorschemeManager", event = "ColorScheme" })
+        local colorscheme_manager_autocmds = vim.api.nvim_get_autocmds({
+            group = "ColorschemeManager",
+            event = "ColorScheme",
+        })
         assert.is_equal(#colorscheme_manager_autocmds, 1)
     end)
 
-    it("can run the custom options function whenever changing the colorscheme", function()
-        vim.cmd("colorscheme " .. default_colorscheme)
-        assert.is_equal(COUNT, 1)
-    end)
+    it(
+        "can run the custom options function whenever changing the colorscheme",
+        function()
+            vim.cmd("colorscheme " .. default_colorscheme)
+            assert.is_equal(COUNT, 1)
+        end
+    )
 end)
 
 vim.cmd("source plugin/colorscheme-manager.lua")

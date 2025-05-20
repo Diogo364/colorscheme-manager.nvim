@@ -26,4 +26,8 @@ function M.set_custom_options(custom_options_function)
     colorscheme_manager:set_custom_options_function(custom_options_function)
 end
 
+---Encapsulate clear cache function
+function M.clear()
+    colorscheme_manager:_clear_cache()
+end
 return M

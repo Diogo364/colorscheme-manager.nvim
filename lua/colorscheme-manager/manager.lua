@@ -1,4 +1,5 @@
 local ColorschemeManagerGroup = require("colorscheme-manager.autocmd")
+local CacheManager = require("colorscheme-manager.cache_manager")
 
 ---@class ColorschemeManager
 ---This is the motor behind the ColorschemeManager. It does all the implementation logic for apply the changes
@@ -11,6 +12,7 @@ local ColorschemeManager = {
     enable_custom_options = nil,
     custom_options_function = nil,
     autocmd = true,
+    cache_dir = nil,
 }
 
 ---Create new ColorschemeManager
@@ -25,6 +27,12 @@ function ColorschemeManager:new(opts)
         manager.enable_custom_options = nil
         manager.custom_options_function = nil
     end
+
+    local cache_params = {}
+    if self.cache_dir then
+        cache_params.data_path = self.cache_dir
+    end
+    self.cache_manager = CacheManager:new(cache_params)
 
     manager:_set_autocmd()
 
@@ -43,7 +51,8 @@ end
 
 ---Use ColorschemeManager to update colorscheme and run the custom_options_function if enabled
 function ColorschemeManager:apply_changes()
-    vim.cmd.colorscheme(self.colorscheme)
+    local colorscheme = self:_load_cached() or self.colorscheme
+    vim.cmd.colorscheme(colorscheme)
     if not self.autocmd then
         self:apply_custom_options_function()
     end
@@ -53,6 +62,7 @@ end
 ---custom_options_function if enabled
 function ColorschemeManager:sync_changes()
     self.colorscheme = vim.g.colors_name
+    self:_save_cache(self.colorscheme)
     self:apply_custom_options_function()
 end
 
@@ -71,7 +81,7 @@ function ColorschemeManager:switch_colorscheme(colorscheme)
     if colorscheme == nil then
         error("No colorscheme passed to this function")
     end
-    self.colorscheme = colorscheme
+    self:_save_cache(colorscheme)
     self:apply_changes()
 end
 
@@ -97,6 +107,19 @@ function ColorschemeManager:_set_autocmd()
         end,
         desc = "Run custom_options_function for each change in colorscheme",
     })
+end
+
+function ColorschemeManager:_load_cached()
+    return self.cache_manager:load()
+end
+
+function ColorschemeManager:_save_cache(colorscheme)
+    self.cache_manager:cache(colorscheme)
+end
+
+function ColorschemeManager:_clear_cache()
+    self.cache_manager:clear()
+    self.cache_manager:ensure_data_path()
 end
 
 return ColorschemeManager

@@ -2,6 +2,7 @@ COUNT = 0
 
 local target_colorscheme = "blue"
 local default_colorscheme = "default"
+local tmp_dir = "/tmp/colorscheme-manager_spec"
 
 local set_defaults = function()
     vim.cmd("colorscheme " .. default_colorscheme)
@@ -16,7 +17,10 @@ local colorscheme_manager = require("colorscheme-manager.manager"):new({
     enable_custom_options = false,
     custom_options_function = CustomFunction,
     autocmd = true,
+    cache_dir = tmp_dir,
 })
+
+colorscheme_manager:_clear_cache()
 
 describe("ColorschemeManager", function()
     before_each(set_defaults)
